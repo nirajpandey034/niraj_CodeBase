@@ -10,6 +10,7 @@ import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 
+//Coded by Niraj Pandey
 function Cards(props) {
     const useStyles = makeStyles((theme)=>({
         root: {
@@ -18,6 +19,7 @@ function Cards(props) {
           marginLeft: 'auto',
           marginRight: 'auto',
           overflow: 'auto',
+          backgroundColor:'skyblue',
         },
         bullet: {
           display: 'inline-block',
@@ -75,7 +77,7 @@ function Cards(props) {
                     component='p'> 
                         <strong>Contributed By:</strong> {props.owner_name}</Typography>
                     {bull}
-                    <Typography className={classes.owner_email} color="primary" 
+                    <Typography className={classes.owner_email} color="secondary" 
                     style={{cursor : 'pointer', textDecoration: 'underline'}}
                     component='p' onClick={()=>{window.location.href='mailto:' + props.owner_email}}> 
                     {props.owner_email}</Typography>
@@ -116,7 +118,7 @@ function Cards(props) {
             <hr />
             <p id="server-modal-description"
             style={{fontFamily:'monospace'}}>
-                <code>{props.code_text}</code></p>
+                <kbd> <code>{props.code_text}</code> </kbd> </p>
             <a style={{textDecoration:'underline', color:'blue', cursor:'pointer' }}
             onClick={()=>window.open('https://techiedelight.com/tools/clike')} >
                 Copy code from here and beautify it here (C/C++)</a>
