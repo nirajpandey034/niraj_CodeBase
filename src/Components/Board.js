@@ -24,6 +24,11 @@ function Board() {
         <div>
             <h1 style={{textDecoration:'none'}}>[The CODE_BASE]</h1>
                 {(data.length === 0) ? loading : data}
+
+            <br />
+            <a href="https://ur-code-base.web.app/" target="_blank">Want to Contribute?</a>
+            <br />
+            <a href="https://www.linkedin.com/in/imnirajpandey" target="_blank">Get in touch with the Creator</a>
         </div>
     )
 }

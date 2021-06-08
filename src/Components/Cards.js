@@ -19,7 +19,7 @@ function Cards(props) {
           marginLeft: 'auto',
           marginRight: 'auto',
           overflow: 'auto',
-          backgroundColor:'skyblue',
+          backgroundColor:'#d5f4e6',
         },
         bullet: {
           display: 'inline-block',
