@@ -7,6 +7,8 @@ import CodeRoundedIcon from '@material-ui/icons/CodeRounded';
 import EmojiPeopleIcon from '@material-ui/icons/EmojiPeople';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
+
+import Tooltip from '@material-ui/core/Tooltip';
 function Board() {
     const [data, setData] = useState([])  
     const [flag, setFlag] = useState(true)
@@ -27,15 +29,27 @@ function Board() {
     },[flag])
     return (       
         <div>
-            <h1 style={{textDecoration:'none'}}>[The CODE_BASE]</h1>
+            <Tooltip title="Created by Niraj Pandey">
+            <h1 
+            style={{textDecoration:'none', position:'fixed',
+             writingMode:'tb',textOrientation:'upright', backgroundColor:'black', color:'white',cursor:'default'
+             }}>The CODE BASE</h1>
+            </Tooltip>
+
                 {(data.length === 0) ? <CircularProgress /> : data}
 
             <br />
+            <Tooltip title='Upload Your Code'>
             <a href="https://ur-code-base.web.app/" target="_blank" rel="noreferrer"><AddCircleRoundedIcon fontSize="large" color="primary"/></a>
+            </Tooltip>
             &emsp;&emsp;
+            <Tooltip title='Get in touch with Creator'>
             <a href="https://www.linkedin.com/in/imnirajpandey" target="_blank" rel="noreferrer"><EmojiPeopleIcon fontSize="large" color="primary"/></a>
+            </Tooltip>
             &emsp;&emsp;
+            <Tooltip title='Github Repository'>
             <a href="https://github.com/nirajpandey034/niraj_CodeBase" target="_blank" rel="noreferrer"><CodeRoundedIcon fontSize="large" color="primary"/></a>
+            </Tooltip>
         </div>
     )
 }
