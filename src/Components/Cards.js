@@ -6,10 +6,20 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
-import Modal from '@material-ui/core/Modal';
-import Backdrop from '@material-ui/core/Backdrop';
-import Fade from '@material-ui/core/Fade';
+import Dialog from '@material-ui/core/Dialog';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItem from '@material-ui/core/ListItem';
+import List from '@material-ui/core/List';
+import Divider from '@material-ui/core/Divider';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
+import Slide from '@material-ui/core/Slide';
 
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 //Coded by Niraj Pandey
 function Cards(props) {
     const useStyles = makeStyles((theme)=>({
@@ -57,10 +67,19 @@ function Cards(props) {
             border: '2px solid #000',
             boxShadow: theme.shadows[5],
             padding: theme.spacing(2, 4, 3),
-        }
+        },
+        appBar: {
+          position: 'relative',
+          backgroundColor:'#d5f4e6',
+          color:'black',
+        },
+        title: {
+          marginLeft: theme.spacing(2),
+          flex: 1,
+        },
       }));
     const classes = useStyles();
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
     const bull = <span className={classes.bullet}>•</span>;
 
     const handleOpen = () => {
@@ -72,7 +91,7 @@ function Cards(props) {
       };
     return (
         <div>
-            <Card className={classes.root}>
+          <Card className={classes.root}>
             <CardContent>
                     <Typography className={classes.owner_name} color="textSecondary" 
                     component='p'> 
@@ -100,40 +119,28 @@ function Cards(props) {
                 Approach & Code</Button>
             </CardActions>
         </Card>
-        <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        className={classes.modal}
-        open={open}
-        onClose={handleClose}
-        closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-        }}
-      >
-        <Fade in={open}>
-          <div className={classes.paper}>
-            <h2 id="transition-modal-title">{props.code_title}</h2>
-            <p id="transition-modal-description"><i>{props.code_approach}</i></p>
-            <hr />
-            <p id="server-modal-description"
-            style={{fontFamily:'monospace'}}>
-                 <code>{props.code_text}</code>  </p>
-            <a style={{textDecoration:'underline', color:'blue', cursor:'pointer' }}
-            onClick={()=>window.open('https://techiedelight.com/tools/clike')} >
-                Copy code from here and beautify it here (C/C++)</a>
-            <br />
-                <a style={{textDecoration:'underline', color:'blue', cursor:'pointer' }}
-            onClick={()=>window.open('https://codebeautify.org/jsviewer')} >
-                Copy code from here and beautify it here (JS)</a>
-                <br /><br />
-            
-            <Button onClick={()=>{handleClose()}} 
-            color='primary' variant='contained' size='small'>Close</Button>
-          </div>
-        </Fade>
-      </Modal>
+        {/* trial */}
+            <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
+        <AppBar className={classes.appBar}>
+          <Toolbar>
+            <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
+              <CloseIcon />
+            </IconButton>
+            <Typography variant="h6" className={classes.title}>
+              Approach & Code
+            </Typography>
+          </Toolbar>
+        </AppBar>
+        <List>
+          <ListItem >
+            <ListItemText primary="Code Approach" secondary={props.code_approach} />
+          </ListItem>
+          <Divider />
+          <ListItem >
+            <pre><code><ListItemText primary="Code" secondary={props.code_text} /> </code></pre>
+          </ListItem>
+        </List>
+      </Dialog>
         </div>
     )
 }
