@@ -20,6 +20,7 @@ function Cards(props) {
           marginRight: 'auto',
           overflow: 'auto',
           backgroundColor:'#d5f4e6',
+          zIndex:10,
         },
         bullet: {
           display: 'inline-block',
@@ -49,7 +50,7 @@ function Cards(props) {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            overflow:'scroll',
+            overflow:'auto',
         },
         paper: {
             backgroundColor: theme.palette.background.paper,
@@ -118,7 +119,7 @@ function Cards(props) {
             <hr />
             <p id="server-modal-description"
             style={{fontFamily:'monospace'}}>
-                <kbd> <code>{props.code_text}</code> </kbd> </p>
+                 <code>{props.code_text}</code>  </p>
             <a style={{textDecoration:'underline', color:'blue', cursor:'pointer' }}
             onClick={()=>window.open('https://techiedelight.com/tools/clike')} >
                 Copy code from here and beautify it here (C/C++)</a>
