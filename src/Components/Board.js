@@ -34,8 +34,7 @@ function Board() {
         <div>
             <Tooltip title="Created by Niraj Pandey">
             <h1 
-            style={{textDecoration:'none', position:'fixed',
-             writingMode:'tb',textOrientation:'upright', backgroundColor:'black', color:'white',cursor:'default'
+            style={{textDecoration:'none', backgroundColor:'black', color:'white',cursor:'default'
              }}>The CODE BASE</h1>
             </Tooltip>
 
