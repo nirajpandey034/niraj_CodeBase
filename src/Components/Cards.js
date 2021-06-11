@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import EmailIcon from '@material-ui/icons/Email';
+import CodeIcon from '@material-ui/icons/Code';
 
 import Dialog from '@material-ui/core/Dialog';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -155,15 +156,23 @@ function Cards(props) {
                     </Typography>
             </CardContent>
             <CardActions>
-                <Button size="small" className="btn" 
-                color="secondary" onClick={handleOpen}>
-                Approach & Code</Button>
-                
+              <div style={{display:'flex', width:'100%'}}>
+                <div>
+                <Tooltip title='Approach & Code'>
+                <CodeIcon size="small" className="btn" 
+                color="secondary" onClick={handleOpen} >
+                </CodeIcon>
+                </Tooltip>
+                </div>
+             
+                <div style={{marginLeft:'auto', marginRight:'0'}}>
                 <Tooltip title='Send this to your email'>
                 <EmailIcon size="small"
-                color="secondary" onClick={handleShareOpen}>
+                color="secondary" onClick={handleShareOpen} >
                 </EmailIcon>
                 </Tooltip>
+                </div>
+              </div>
             </CardActions>
         </Card>
         {/* Code section */}
