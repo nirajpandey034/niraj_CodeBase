@@ -5,6 +5,8 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import TextField from '@material-ui/core/TextField';
+import EmailIcon from '@material-ui/icons/Email';
 
 import Dialog from '@material-ui/core/Dialog';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -16,6 +18,14 @@ import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
+
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+
+
+import emailjs from 'emailjs-com';
+import Tooltip from '@material-ui/core/Tooltip';
 
 
 
@@ -82,6 +92,10 @@ function Cards(props) {
       }));
     const classes = useStyles();
     const [open, setOpen] = useState(false);
+    const [ShareOpen, setShareOpen] = useState(false);
+    const [email, setEmail] = useState('');
+    //sent status 
+    const [sending, setSending] = useState('')
     const bull = <span className={classes.bullet}>•</span>;
 
     const handleOpen = () => {
@@ -91,6 +105,31 @@ function Cards(props) {
       const handleClose = () => {
         setOpen(false);
       };
+
+      const handleShareOpen = () => {
+        setShareOpen(true);
+      };
+    
+      const handleShareClose = () => {
+        setShareOpen(false);
+      };
+
+      const setemail = (e) =>{
+          setEmail(e.target.value)
+      }
+
+      const sendEmail = () =>{
+        let data1 = {
+          from_name: 'CodeBase',
+          to_email: email,
+          message: props.code_text,
+          reply_to:'codewithniraj034@gmail.com'
+      };
+      setSending('');
+        emailjs.send('service_codebase', 'template_t4z1v0s', data1, 'user_etDRuxhbEwmGrJ7URIpL1')
+        .then(()=>{alert('Sent');  setEmail(''); setSending(''); handleShareClose();})
+        .catch((err)=>{setSending('Error Occured');})
+      }
     return (
         <div>
           <Card className={classes.root}>
@@ -119,9 +158,15 @@ function Cards(props) {
                 <Button size="small" className="btn" 
                 color="secondary" onClick={handleOpen}>
                 Approach & Code</Button>
+                
+                <Tooltip title='Send this to your email'>
+                <EmailIcon size="small"
+                color="secondary" onClick={handleShareOpen}>
+                </EmailIcon>
+                </Tooltip>
             </CardActions>
         </Card>
-        {/* trial */}
+        {/* Code section */}
             <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
         <AppBar className={classes.appBar}>
           <Toolbar>
@@ -142,6 +187,30 @@ function Cards(props) {
             <pre><code><ListItemText primary="Code" secondary={props.code_text} /> </code></pre>
           </ListItem>
         </List>
+      </Dialog>
+
+      {/* Share Section */}
+      <Dialog
+        open={ShareOpen}
+        TransitionComponent={Transition}
+        keepMounted
+        onClose={handleShareClose}
+        aria-labelledby="alert-dialog-slide-title"
+        aria-describedby="alert-dialog-slide-description"
+      >
+        <DialogTitle id="alert-dialog-slide-title">{"Share the Code"}</DialogTitle>
+        <DialogContent> 
+          <TextField type="text" placeholder="Enter your Email" onChange={setemail}/>
+          <p style={{color:'red'}}>{sending}</p>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleShareClose} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={sendEmail} color="primary">
+            Share
+          </Button>
+        </DialogActions>
       </Dialog>
         </div>
     )
