@@ -22,13 +22,11 @@ import Slide from '@material-ui/core/Slide';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-
-
-import emailjs from 'emailjs-com';
 import Tooltip from '@material-ui/core/Tooltip';
 
-import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
-import ThumbDownIcon from '@material-ui/icons/ThumbDown';
+import emailjs from 'emailjs-com';
+
+
 
 
 const Transition = React.forwardRef(function Transition(props, ref) {
