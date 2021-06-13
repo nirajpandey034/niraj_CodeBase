@@ -49,6 +49,11 @@ function Cards(props) {
       margin: '0 2px',
       transform: 'scale(0.8)',
     },
+    date :{
+        marginLeft:'auto',
+        marginRight:'0',
+        display: 'flex'
+    },
     owner_name: {
       width: 'auto',
       textAlign: 'left',
@@ -134,6 +139,11 @@ function Cards(props) {
     <div>
       <Card className={classes.root}>
         <CardContent>
+          <div className={classes.date}>
+          <Typography color='primary' component='p'>
+          <strong>On:</strong>{props.date}
+          </Typography>
+          </div>
           <Typography className={classes.owner_name} color="textSecondary"
             component='p'>
             <strong>Contributed By:</strong> {props.owner_name}</Typography>

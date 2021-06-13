@@ -23,7 +23,7 @@ function Board() {
                 let value = snapshot.val();
                 dat = [...dat, <Cards key={value.code_title} owner_name={value.owner_name} owner_email={value.owner_email}
                     code_title={value.code_title} code_url={value.code_url}
-                    code_approach={value.code_approach} code_text={value.code_text} />]
+                    code_approach={value.code_approach} code_text={value.code_text} date={value.time} />]
                 setFlag(false)
             });
             setData(dat);
