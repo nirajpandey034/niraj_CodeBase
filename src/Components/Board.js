@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import firebase from '../firebase'
 import Cards from './Cards'
 
 import AddCircleRoundedIcon from '@material-ui/icons/AddCircleRounded';
@@ -12,24 +11,56 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Tooltip from '@material-ui/core/Tooltip';
 
 
+import {postFirstBatch, postsNextBatch} from './Post';
+
+
+import Button from '@material-ui/core/Button';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+
+
 function Board() {
     const [data, setData] = useState([])
-    const [flag, setFlag] = useState(true)
+    const [lastkey, setLastkey] = useState("")
+    const [nextPosts_loading, setNextPostsLoading] = useState(false)
 
     useEffect(() => {
-        const getData = () => {
-            let dat = [];
-            firebase.database().ref("codeBase").on("child_added", (snapshot, prevChildKey) => {
-                let value = snapshot.val();
-                dat = [...dat, <Cards key={value.code_title} owner_name={value.owner_name} owner_email={value.owner_email}
-                    code_title={value.code_title} code_url={value.code_url}
-                    code_approach={value.code_approach} code_text={value.code_text} date={value.time} />]
-                setFlag(false)
+        let isMounted = true;
+        postFirstBatch()
+        .then((res)=>{
+             let dat = [];
+            res.posts.forEach((post)=>{
+                dat = [...dat, <Cards key={post.code_title} owner_name={post.owner_name} owner_email={post.owner_email}
+                        code_title={post.code_title} code_url={post.code_url}
+                        code_approach={post.code_approach} code_text={post.code_text} date={post.time} />]
             });
-            setData(dat);
+
+            if(isMounted) setData(dat);
+             setLastkey(res.lastkey);
+            return () => { isMounted = false };
+        });
+    },[]);
+    const fetchMorePosts = (key) =>{
+        if(key.length > 0){
+            setNextPostsLoading(true);
+            postsNextBatch(key)
+            .then((res)=>{
+                let dat = [];
+                res.posts.forEach((post)=>{
+                dat = [...dat, <Cards key={post.code_title} owner_name={post.owner_name} owner_email={post.owner_email}
+                        code_title={post.code_title} code_url={post.code_url}
+                        code_approach={post.code_approach} code_text={post.code_text} date={post.time} />]
+            });
+                setData(data.concat(dat));
+                setLastkey(res.lastkey);
+                setNextPostsLoading(false);
+            })
+            .catch((err)=>{ 
+                console.log(err);
+                setNextPostsLoading(false);
+            });
         }
-        getData();
-    }, [flag])
+    };  
+
 
     return (
         <div>
@@ -40,7 +71,15 @@ function Board() {
                     }}>The CODE BASE</h1>
             </Tooltip>
 
-            {(data.length === 0) ? <CircularProgress /> : data}
+            {(data.length === 0)?<CircularProgress /> : data}
+            <div style={{textAlign:"center"}}>
+                {nextPosts_loading ? (
+                     <CircularProgress />
+                ) : lastkey.length > 0 ? (
+                    <Button color="primary" startIcon={<ExpandMoreIcon />} onClick={()=>fetchMorePosts(lastkey)}>More Codes</Button>
+                ) : (<span></span>)
+                }
+            </div>
 
             <br />
             <Tooltip title='Upload Your Code'>
