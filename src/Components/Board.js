@@ -81,9 +81,11 @@ function Board() {
 
             <div style={{display:"flex", width:"100%"}}>
 
-            {hasNext ? <Button endIcon={<ArrowForwardIosIcon />} onClick={() => { fetch('n') }}>Next</Button> : null} <br />
             
-            {hasPrev ? <Button startIcon={<ArrowBackIosIcon />} style={{marginLeft:"auto"}} onClick={() => { fetch('p') }}>Previous</Button> : null}
+            
+            {hasPrev ? <Button startIcon={<ArrowBackIosIcon />} onClick={() => { fetch('p') }}>Previous</Button> : null} <br />
+
+            {hasNext ? <Button endIcon={<ArrowForwardIosIcon />} style={{marginLeft:"auto"}} onClick={() => { fetch('n') }}>Next</Button> : null} 
 
             </div>
             <br />
