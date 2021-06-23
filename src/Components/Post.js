@@ -23,5 +23,18 @@ import axios from 'axios';
             console.log(e);
         }
     };
+    export async function getSearchData(codeTitle){
+        try{
+            let post={};
+               await axios.post("https://codebase034.herokuapp.com/fetch",{
+                   code_title:codeTitle
+               })
+               .then(res=>{post = res })
+               .catch(err=>{console.log(err)});
+            return {post};
+        }catch(e){
+            console.log(e);
+        }
+    };
 // };
 

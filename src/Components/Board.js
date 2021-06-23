@@ -11,13 +11,15 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Tooltip from '@material-ui/core/Tooltip';
 
 
-import { getData } from './Post';
+import { getData, getSearchData } from './Post';
 
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import SearchIcon from '@material-ui/icons/Search';
+import AutorenewIcon from '@material-ui/icons/Autorenew';
 
 import Button from '@material-ui/core/Button';
-
+import TextField from '@material-ui/core/TextField';
 
 function Board() {
     const [data, setData] = useState([])
@@ -25,6 +27,8 @@ function Board() {
     const [hasNext, setHasNext] = useState(false);
     const [hasPrev, setHasPrev] = useState(false);
     const [currentPage, setCurrentPage] = useState();
+    //for rendering
+    const [status, setStatus] = useState(false);
 
     useEffect(() => {
         let isMounted = true;
@@ -41,10 +45,10 @@ function Board() {
                 setHasNext(res.hasNext);
                 setHasPrev(res.hasPrev);
                 setCurrentPage(res.currentPage);
-
+                setStatus(true);
                 return () => { isMounted = false };
             });
-    }, []);
+    }, [status]);
 
     const fetch = (char) => {
         let page;
@@ -68,6 +72,34 @@ function Board() {
                 setCurrentPage(res.currentPage);
             });
     }
+
+    const searchCode = () =>{
+        let code_title = document.getElementById('search_text').value;
+        if(code_title === '')
+            alert('Kindly enter the search data correctly');
+        else{
+        getSearchData(code_title)
+            .then((res)=>{
+                let dat = [];
+                dat = [<Cards key={res.post.data.code_title} owner_name={res.post.data.owner_name} owner_email={res.post.data.owner_email}
+                    code_title={res.post.data.code_title} code_url={res.post.data.code_url}
+                    code_approach={res.post.data.code_approach} code_text={res.post.data.code_text} date={res.post.data.time}/>]
+
+                setData(dat);
+                setHasNext(false);
+                setHasPrev(false);
+            })
+            .catch((err)=>{alert('No matched found as per your search, please try again')});
+        }
+    }
+
+    const refreshPage = () => {
+        if(status !== false)
+        {
+            setStatus(false);
+            document.getElementById('search_text').value = '';
+        }
+    }
     return (
         <div>
             <Tooltip title="Created by Niraj Pandey">
@@ -77,6 +109,15 @@ function Board() {
                     }}>The CODE BASE</h1>
             </Tooltip>
 
+            <div style={{display:"flex", width:"90%"}}>
+
+            <TextField placeholder="Enter the title to search"
+            style={{marginLeft:'auto'}} id='search_text' />
+
+            <Button startIcon={<SearchIcon />} color='primary' onClick={searchCode}>Search</Button>
+            <Button startIcon={<AutorenewIcon />} color='secondary' onClick={refreshPage}>Clear Search</Button>
+                 
+            </div>
             {(data.length === 0) ? <CircularProgress /> : data}
 
             <div style={{display:"flex", width:"100%"}}>
