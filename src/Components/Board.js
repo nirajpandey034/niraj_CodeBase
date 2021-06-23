@@ -118,17 +118,27 @@ function Board() {
             <Button startIcon={<AutorenewIcon />} color='secondary' onClick={refreshPage}>Clear Search</Button>
                  
             </div>
-            {(data.length === 0) ? <CircularProgress /> : data}
 
+            {/* page change div */}
             <div style={{display:"flex", width:"100%"}}>
 
-            
-            
             {hasPrev ? <Button startIcon={<ArrowBackIosIcon />} onClick={() => { fetch('p') }}>Previous</Button> : null} <br />
 
             {hasNext ? <Button endIcon={<ArrowForwardIosIcon />} style={{marginLeft:"auto"}} onClick={() => { fetch('n') }}>Next</Button> : null} 
 
             </div>
+            
+            {(data.length === 0) ? <CircularProgress /> : data}
+
+            {/* page change div */}
+            <div style={{display:"flex", width:"100%"}}>
+
+            {hasPrev ? <Button startIcon={<ArrowBackIosIcon />} onClick={() => { fetch('p') }}>Previous</Button> : null} <br />
+
+            {hasNext ? <Button endIcon={<ArrowForwardIosIcon />} style={{marginLeft:"auto"}} onClick={() => { fetch('n') }}>Next</Button> : null} 
+
+            </div>
+
             <br />
             <Tooltip title='Upload Your Code'>
                 <a href="https://ur-code-base.web.app/" target="_blank" rel="noreferrer"><AddCircleRoundedIcon fontSize="large" color="primary" /></a>
