@@ -11,7 +11,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Tooltip from '@material-ui/core/Tooltip';
 
 
-import { getData, getSearchData } from './Post';
+import { getData, getSearchData, getAllTitles } from './Post';
 
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
@@ -20,6 +20,7 @@ import AutorenewIcon from '@material-ui/icons/Autorenew';
 
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 
 function Board() {
     const [data, setData] = useState([])
@@ -29,6 +30,8 @@ function Board() {
     const [currentPage, setCurrentPage] = useState();
     //for rendering
     const [status, setStatus] = useState(false);
+    const [searchText, setSearchText] = useState('');
+    const [codeTitles, setCodeTitles] = useState([]);
 
     useEffect(() => {
         let isMounted = true;
@@ -47,6 +50,18 @@ function Board() {
                 setCurrentPage(res.currentPage);
                 setStatus(true);
                 return () => { isMounted = false };
+            });
+            //getting titles
+        getAllTitles()
+            .then((res)=>{
+                let titles = [];
+                res.post.forEach((title)=>{
+                    titles = [...titles, title.code_title];
+                })
+                setCodeTitles(titles);
+            })
+            .catch((err)=>{
+                console.log("Some Error occured");
             });
     }, [status]);
 
@@ -74,7 +89,7 @@ function Board() {
     }
 
     const searchCode = () =>{
-        let code_title = document.getElementById('search_text').value;
+        let code_title = searchText;
         if(code_title === '')
             alert('Kindly enter the search data correctly');
         else{
@@ -97,7 +112,7 @@ function Board() {
         if(status !== false)
         {
             setStatus(false);
-            document.getElementById('search_text').value = '';
+            setSearchText('');
         }
     }
     return (
@@ -109,12 +124,35 @@ function Board() {
                     }}>The CODE BASE</h1>
             </Tooltip>
 
-            <div style={{display:"flex", width:"90%"}}>
-
-            <TextField placeholder="Enter the title to search"
-            style={{marginLeft:'auto'}} id='search_text' />
-
-            <br />
+            <div style={{display:"inline-block", width:"100%", marginLeft: 'auto', marginRight: '0px'}}>
+            {/* jsdnjsdfn */}
+            <Autocomplete
+                id="search_text"
+                freeSolo
+                autoComplete={true}
+                inputValue={searchText}
+                onInputChange={(event, newInputValue) => {setSearchText(newInputValue);}}
+                options={codeTitles}
+                renderInput={(params) => (
+                    <TextField
+                            {...params}
+                            variant="outlined" margin="normal" 
+                            label="Enter the title to search" id='search_text'
+                            InputProps={{ ...params.InputProps, type: 'search' }}/>
+                )}
+                //{
+                //     //return (
+                //         // <div ref={params}>
+                //             <TextField
+                //             {...params}
+                //             variant="outlined" margin="normal" 
+                //             label="Enter the title to search" id='search_text'
+                //             InputProps={{ ...params.InputProps, type: 'search' }}/>
+                //         {/* </div> */}
+                //     //)
+                // }}
+            />
+            {/* ljsjdjsdnvjnsd */}
 
             <Button startIcon={<SearchIcon />} color='primary' onClick={searchCode}>Search</Button>
             <Button startIcon={<AutorenewIcon />} color='secondary' onClick={refreshPage}>Reset</Button>

@@ -36,5 +36,22 @@ import axios from 'axios';
             console.log(e);
         }
     };
+
+    export async function getAllTitles(){
+        try{
+            let post=[];
+               await axios.get("https://codebase034.herokuapp.com/fetch/all")
+               .then(res=>{
+                   res.data.forEach((result)=>{
+                       post.push(result);
+                   })
+               })
+               .catch(err=>{console.log(err)});
+            return {post};
+        }catch(e){
+            console.log(e);
+        }
+    };
+
 // };
 
