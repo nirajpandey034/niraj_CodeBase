@@ -114,8 +114,10 @@ function Board() {
             <TextField placeholder="Enter the title to search"
             style={{marginLeft:'auto'}} id='search_text' />
 
+            <br />
+
             <Button startIcon={<SearchIcon />} color='primary' onClick={searchCode}>Search</Button>
-            <Button startIcon={<AutorenewIcon />} color='secondary' onClick={refreshPage}>Clear Search</Button>
+            <Button startIcon={<AutorenewIcon />} color='secondary' onClick={refreshPage}>Reset</Button>
                  
             </div>
 
@@ -127,7 +129,7 @@ function Board() {
             {hasNext ? <Button endIcon={<ArrowForwardIosIcon />} style={{marginLeft:"auto"}} onClick={() => { fetch('n') }}>Next</Button> : null} 
 
             </div>
-            
+
             {(data.length === 0) ? <CircularProgress /> : data}
 
             {/* page change div */}
